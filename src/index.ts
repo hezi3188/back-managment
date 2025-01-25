@@ -12,7 +12,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(loggerMiddleware);
 
-// Routes d
+// Routes for the application
 app.get('/error', (req, res) => {
     throw new AppError('This is an error message', StatusCodes.NOT_FOUND);
 });
