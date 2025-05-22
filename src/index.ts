@@ -1,16 +1,26 @@
 import express, { Application } from 'express';
+import cors from 'cors';
 import { errorMiddleware } from './middelwares/errorMiddelware';
 import loggerMiddleware from 'middelwares/loggerMiddelware';
-import { connectToMongoDB } from 'configs/mongodbConfig';
 import configs from 'configs';
+import authRouter from 'routes/authRouter';
+import cookieParser from 'cookie-parser';
 
 configs();
 
 const app: Application = express();
 
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+    })
+);
+app.use(cookieParser());
 app.use(express.json());
 app.use(loggerMiddleware);
-connectToMongoDB();
+
+app.use('/auth', authRouter);
 
 app.get('/health', (req, res) => {
     res.send('Helthy');
